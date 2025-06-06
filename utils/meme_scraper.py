@@ -27,7 +27,7 @@ def download_memes(limit=5):
                 used_ids.add(line.strip())
 
     fail_count = 0
-    max_fail = 10  # Stop if too many consecutive failures
+    max_fail = 10
 
     for post in subreddit.hot(limit=200):
         if post.id in used_ids:
@@ -70,7 +70,6 @@ def download_memes(limit=5):
                     print("[DEBUG] Video download failed")
             except Exception as e:
                 print(f"[DEBUG] Error downloading video: {e}")
-                # Always try to remove the file if it was created
                 if os.path.exists(filename):
                     os.remove(filename)
                 fail_count += 1
@@ -116,7 +115,6 @@ def download_memes(limit=5):
                     print("[DEBUG] Gif download failed")
             except Exception as e:
                 print(f"[DEBUG] Error downloading gif: {e}")
-                # Always try to remove the file if it was created
                 if os.path.exists(filename):
                     os.remove(filename)
                 fail_count += 1
