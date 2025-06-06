@@ -1,5 +1,6 @@
 __pycache__/
 venv/
-secrets/
+secrets/*.json
+memes/*.{gif,jpg,png,mp4,opus}
 used_memes.txt
 .env
