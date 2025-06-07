@@ -18,7 +18,7 @@ DEFAULT_SOUND = "sounds/relatable.mp3"
 
 YOUTUBE_SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
 
-WAIT_TIME = 60 * 60 * 12
+WAIT_TIME = 12 * 60 * 60
 
 DEFAULT_TAGS = [
     "discover",

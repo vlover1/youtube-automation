@@ -30,10 +30,12 @@ def main():
 
         if meme_type == "gif":
             output_path = Youtube.gif_to_video(file_path, sound_effect)
+        elif meme_type == "image":
+            output_path = Youtube.image_to_video(file_path, sound_effect)
 
         Youtube.upload_video(output_path, caption, full_description, all_tags)
 
-        if meme_type == "gif" and os.path.exists(output_path):
+        if meme_type in ["gif", "image"] and os.path.exists(output_path):
             os.remove(output_path)
 
         print(f"Phase {i+1} of automation is over")

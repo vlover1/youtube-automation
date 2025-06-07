@@ -63,7 +63,15 @@ class Youtube:
                 print(f"An error occurred during upload: {e}")
                 if "uploadLimitExceeded" in str(e):
                     print("YouTube upload limit exceeded. Please try again later.")
-                    time.sleep(60 * 60 * 24)
+                    interval = 10 * 60
+                    total_wait = 24 * 60 * 60
+                    waited = 0
+
+                    while waited < total_wait:
+                        print(f"{waited // 3600} hours passed, waiting continues...")
+                        time.sleep(interval)
+                        waited += interval
+
                 else:
                     break
 
@@ -78,7 +86,6 @@ class Youtube:
     @staticmethod
     def gif_to_video(file_path: str, sound_effect: str) -> str:
         output_path = file_path.replace(".gif", ".mp4")
-        # Convert GIF to MP4
         (
             ffmpeg.input(file_path)
             .filter("scale", "trunc(iw/2)*2", "trunc(ih/2)*2")
@@ -86,7 +93,6 @@ class Youtube:
             .overwrite_output()
             .run(quiet=True, capture_stdout=True, capture_stderr=True)
         )
-        # Add sound effect to video
         (
             ffmpeg.output(
                 ffmpeg.input("video.mp4"),
@@ -105,6 +111,41 @@ class Youtube:
         )
         if os.path.exists("video.mp4"):
             os.remove("video.mp4")
+        if os.path.exists(file_path):
+            os.remove(file_path)
+        return output_path
+
+    @staticmethod
+    def image_to_video(file_path: str, sound_effect: str) -> str:
+        output_path = os.path.splitext(file_path)[0] + ".mp4"
+        temp_video = "image_video.mp4"
+        (
+            ffmpeg
+            .input(file_path, loop=1, t=9)
+            .filter("scale", "trunc(iw/2)*2", "trunc(ih/2)*2")
+            .output(temp_video, vcodec="libx264", pix_fmt="yuv420p", r=10)
+            .overwrite_output()
+            .run(quiet=True, capture_stdout=True, capture_stderr=True)
+        )
+        (
+            ffmpeg
+            .output(
+                ffmpeg.input(temp_video),
+                ffmpeg.input(sound_effect),
+                output_path,
+                vcodec="libx264",
+                pix_fmt="yuv420p",
+                t=9,
+                r=10,
+                acodec="aac",
+                audio_bitrate="192k",
+                shortest=None
+            )
+            .overwrite_output()
+            .run(quiet=True, capture_stdout=True, capture_stderr=True)
+        )
+        if os.path.exists(temp_video):
+            os.remove(temp_video)
         if os.path.exists(file_path):
             os.remove(file_path)
         return output_path

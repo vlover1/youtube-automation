@@ -83,7 +83,7 @@ class Reddit(praw.Reddit):
                     if fail_count >= REDDIT_MAX_FAIL:
                         print("Too many failed downloads from Reddit. Stopping early.")
                         break
-            # GIF
+            # Gif
             elif (
                 hasattr(post, "url")
                 and post.url
@@ -121,6 +121,49 @@ class Reddit(praw.Reddit):
                         print("Gif download failed")
                 except Exception as e:
                     print(f"Error downloading gif: {e}")
+                    if os.path.exists(filename):
+                        os.remove(filename)
+                    fail_count += 1
+                    if fail_count >= REDDIT_MAX_FAIL:
+                        print("Too many failed downloads from Reddit. Stopping early.")
+                        break
+            # Image
+            elif (
+                hasattr(post, "url")
+                and post.url
+                and post.url.endswith((".jpg", ".jpeg", ".png", ".webp"))
+            ):
+                image_url = post.url
+                ext = os.path.splitext(image_url)[1]
+                filename = f"{self.memes_dir}/{count}{ext}"
+                try:
+                    response = requests.get(image_url, stream=True)
+                    if response.status_code == 200:
+                        with open(filename, "wb") as f:
+                            for chunk in response.iter_content(chunk_size=8192):
+                                f.write(chunk)
+                        tags = [
+                            tag[1:] for tag in post.title.split() if tag.startswith("#")
+                        ]
+                        tags += ["meme", "reddit", "shorts"]
+                        formatted_tags = " ".join([f"#{t}" for t in tags])
+                        description = f"Original Reddit meme.\nSource: {post.url}\n{formatted_tags}"
+                        results.append(
+                            {
+                                "file": filename,
+                                "title": post.title,
+                                "description": description,
+                                "tags": tags,
+                                "type": "image",
+                            }
+                        )
+                        with open(self.used_ids_file, "a", encoding="utf-8") as f:
+                            f.write(post.id + "\n")
+                        count += 1
+                    else:
+                        print("Image download failed")
+                except Exception as e:
+                    print(f"Error downloading image: {e}")
                     if os.path.exists(filename):
                         os.remove(filename)
                     fail_count += 1
