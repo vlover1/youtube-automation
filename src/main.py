@@ -1,6 +1,5 @@
 import time
 import os
-
 from utils.reddit import reddit
 from utils.youtube import Youtube
 from config import DEFAULT_TAGS, WAIT_TIME
@@ -14,6 +13,7 @@ def main():
         if not memes:
             print("Meme not found, waiting for new memes...")
             i += 1
+            time.sleep(10)
             continue
 
         meme = memes[0]
