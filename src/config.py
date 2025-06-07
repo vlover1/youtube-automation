@@ -16,7 +16,9 @@ CATEGORY_SOUNDS = [
 
 DEFAULT_SOUND = "sounds/relatable.mp3"
 
-WAIT_TIME = 60 * 60
+YOUTUBE_SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
+
+WAIT_TIME = 60 * 60 * 12
 
 DEFAULT_TAGS = [
     "discover",
@@ -141,3 +143,5 @@ DEFAULT_TAGS = [
     "fypシ゚viralshorts",
     "fypシ゚viralclips",
 ]
+
+REDDIT_MAX_FAIL = 10

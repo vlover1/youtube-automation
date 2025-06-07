@@ -1,24 +1,21 @@
 import time
 import os
 
-from utils.meme_scraper import download_memes
-from utils.upload import get_category_sound, process_gif, upload_with_retry
+from utils.reddit import reddit
+from utils.youtube import Youtube
 from config import DEFAULT_TAGS, WAIT_TIME
 
 
 def main():
-    """
-    Downloads and uploads a new video meme to YouTube in each loop.
-    Runs forever until manually stopped.
-    """
     i = 0
     while True:
-        print(f"[INFO] Starting loop {i+1}...")
-        memes = download_memes(limit=1)
+        print(f"Phase {i+1} of automation has begun")
+        memes = reddit.get_memes(limit=1)
         if not memes:
-            print("No meme found.")
+            print("Meme not found, waiting for new memes...")
             i += 1
             continue
+
         meme = memes[0]
         file_path = meme["file"]
         caption = meme["title"]
@@ -29,13 +26,17 @@ def main():
         full_description = f"{description}\n\n{hashtags}"
         meme_type = meme.get("type", "video")
         output_path = file_path
-        sound_effect = get_category_sound(caption)
+        sound_effect = Youtube.get_category_sound(caption)
+
         if meme_type == "gif":
-            output_path = process_gif(file_path, sound_effect)
-        upload_with_retry(output_path, caption, full_description, all_tags)
+            output_path = Youtube.gif_to_video(file_path, sound_effect)
+
+        Youtube.upload_video(output_path, caption, full_description, all_tags)
+
         if meme_type == "gif" and os.path.exists(output_path):
             os.remove(output_path)
-        print(f"[INFO] Loop {i+1} completed.")
+
+        print(f"Phase {i+1} of automation is over")
         time.sleep(WAIT_TIME)
         i += 1
 
