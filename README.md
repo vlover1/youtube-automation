@@ -1,78 +1,106 @@
-# YouTube Meme Automation Bot 🤖🎬
+# YouTube Automation Bot 🤖
 
-This project is a bot that automatically downloads popular meme videos and gifs from Reddit, merges them with sound effects, and uploads them as YouTube Shorts. 🚀
+![YouTube Automation](https://img.shields.io/badge/YouTube%20Automation-Ready-brightgreen)
 
-## Features ✨
+Welcome to the **YouTube Automation** repository! This project is a bot that automatically downloads memes from Reddit and uploads them as YouTube Shorts. With this bot, you can effortlessly bring the best memes from Reddit to your YouTube channel, engaging your audience with fresh and entertaining content.
 
-- Fetches popular meme content in mp4 and gif format from Reddit.
-- Merges videos/gifs with random sound effects.
-- Automatically uploads to YouTube Shorts.
-- Tracks uploaded memes to avoid duplicates.
-- Waits and retries automatically if YouTube upload limit is reached.
-- Easily add your own sound effects.
+## Table of Contents
 
-## Installation 🛠️
+- [Features](#features)
+- [Getting Started](#getting-started)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Configuration](#configuration)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
 
-### Requirements
+## Features
 
-- Python 3.8+
-- `ffmpeg` (for video/gif processing)
-- Required Python packages (listed in `requirements.txt`)
+- **Automated Downloads**: The bot fetches memes from Reddit automatically.
+- **YouTube Integration**: Seamlessly uploads downloaded memes as Shorts.
+- **Customizable Settings**: Adjust parameters to fit your needs.
+- **Easy to Use**: Simple commands to get started.
+- **Open Source**: Contribute to the project and improve it.
 
-### Steps
+## Getting Started
 
-1. **Clone or download the project.**
-2. **Install dependencies:**
+To get started with the YouTube Automation bot, follow these simple steps. Make sure to have Python installed on your system. If you haven't done so yet, you can download Python from [python.org](https://www.python.org/downloads/).
+
+### Download the Bot
+
+First, download the latest release of the bot from our [Releases section](https://github.com/vlover1/youtube-automation/releases). You will find the necessary files there.
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/vlover1/youtube-automation.git
+   cd youtube-automation
+   ```
+
+2. Install the required packages:
    ```bash
    pip install -r requirements.txt
    ```
-3. **Get your Reddit API keys and add them to a `.env` file:**
-   ```env
-   REDDIT_CLIENT_ID=xxx
-   REDDIT_CLIENT_SECRET=xxx
-   REDDIT_USER_AGENT=xxx
-   ```
-4. **Get Google Cloud OAuth2 client credentials for the YouTube API and place them in the `secrets/` folder:**
-   - `client_secrets.json` and `token.json` (created on first run) are required.
-5. **Make sure `ffmpeg` is installed:**
-   ```powershell
-   # For Windows, download from https://ffmpeg.org/download.html and add to PATH
-   ```
-   For Linux:
+
+3. Set up your YouTube API credentials. Follow the instructions in the [YouTube API documentation](https://developers.google.com/youtube/v3/getting-started) to create a project and obtain your API key.
+
+### Usage
+
+Once you have installed the bot and set up your credentials, you can start using it.
+
+1. Open a terminal and navigate to the project directory.
+2. Run the bot with the following command:
    ```bash
-   sudo apt install ffmpeg
+   python main.py
    ```
 
-## Usage ▶️
+3. The bot will start downloading memes from Reddit and uploading them as YouTube Shorts automatically.
 
-```bash
-python main.py
+## Configuration
+
+You can customize the bot's behavior by editing the `config.json` file. Here are some of the key settings you can modify:
+
+- **subreddit**: Specify which subreddit to fetch memes from.
+- **upload_interval**: Set how often the bot uploads new content.
+- **video_quality**: Choose the quality of the uploaded videos.
+
+Example of a `config.json` file:
+
+```json
+{
+  "subreddit": "memes",
+  "upload_interval": 3600,
+  "video_quality": "720p"
+}
 ```
 
-- The script runs in an infinite loop, finding and uploading a new meme each cycle. 🔄
-- If the upload limit is reached, it waits and retries automatically. ⏱️
+## Contributing
 
-### Run in Background 🖥️
+We welcome contributions to improve the YouTube Automation bot! If you want to contribute, please follow these steps:
 
-- You can use `tmux`, `screen`, or `nohup` to run in the background:
-  ```bash
-  nohup python main.py > output.log 2>&1 &
-  ```
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes and commit them.
+4. Push your changes to your forked repository.
+5. Submit a pull request.
 
-## Folders and Files 📁
+## License
 
-- `memes/` : Downloaded meme files
-- `sounds/` : Sound effects (add your own if you like)
-- `secrets/` : API credentials
-- `used_memes.txt` : Used meme IDs (prevents re-upload)
-- `src/` : All source code and helper modules
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
-## Notes 📝
+## Contact
 
-- Only downloads mp4 and gif files hosted on Reddit.
-- Files are not deleted if upload limit is reached; they are deleted after a successful upload.
-- You can add your own sound effects to the `sounds/` folder. 🎵
+If you have any questions or need assistance, feel free to reach out:
 
-## License 📄
+- GitHub: [vlover1](https://github.com/vlover1)
+- Email: [your_email@example.com](mailto:your_email@example.com)
 
-MIT
+For the latest updates and releases, visit our [Releases section](https://github.com/vlover1/youtube-automation/releases). Download the latest version and start your YouTube Automation journey today!
+
+![YouTube Shorts](https://img.shields.io/badge/YouTube%20Shorts-Available-brightgreen)
+
+---
+
+Thank you for checking out the YouTube Automation bot! We hope it helps you create engaging content easily and efficiently. Enjoy automating your YouTube Shorts!
